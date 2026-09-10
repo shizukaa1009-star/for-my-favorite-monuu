@@ -803,7 +803,7 @@ footer, #finale + footer{ color: var(--gold-soft); }
 const CONFIG = {
   HIS_NAME: "Monu",
   YOUR_NAME: "Hami",
-  BIRTHDAY_DATE: "August 9",
+  BIRTHDAY_DATE: "october 9",
 
   // Path or URL to your music file. Put the file next to this HTML file
   // and just change the file name below.
@@ -1149,8 +1149,9 @@ function CONFIG_TODAY_LABEL(){ return "Right here, right now"; }
     el.style.setProperty('--ar', m.ar || 1);
     el.tabIndex = 0;
     el.innerHTML = `
-      ${m.src ? `<img src="${m.src}" alt="${escapeHtml(m.caption)}" loading="lazy">`
-               : `<div class="g-ph" style="aspect-ratio:${m.ar||1}">Photo ${i+1}<br>replace me</div>`}
+      ${m.src ? ${!m.src ? <div class="g-ph" style="aspect-ratio:${m.ar||1}">Photo ${i+1}<br>replace me</div>
+  : /\.(mp4|webm|mov)$/i.test(m.src) ? <video src="${m.src}" muted loop playsinline preload="metadata"></video>
+  : <img src="${m.src}" alt="${escapeHtml(m.caption)}" loading="lazy">}
       <div class="g-cap">${escapeHtml(m.caption)}</div>
     `;
     el.addEventListener('click', ()=> openLightbox(i));
@@ -1164,8 +1165,9 @@ function CONFIG_TODAY_LABEL(){ return "Right here, right now"; }
   function renderLightbox(){
     const m = CONFIG.MEMORIES[lbIndex];
     lbMedia.innerHTML = m.src
-      ? `<img src="${m.src}" alt="${escapeHtml(m.caption)}">`
-      : `<div class="lb-ph">Photo ${lbIndex+1}<br>replace me</div>`;
+     ? <div class="lb-ph">Photo ${lbIndex+1}<br>replace me</div>
+  : /\.(mp4|webm|mov)$/i.test(m.src) ? <video src="${m.src}" controls autoplay playsinline></video>
+  : <img src="${m.src}" alt="${escapeHtml(m.caption)}">;
     lbCaption.textContent = m.caption;
   }
   function openLightbox(i){ lbIndex = i; renderLightbox(); lightbox.classList.add('open'); }
@@ -1201,7 +1203,7 @@ function CONFIG_TODAY_LABEL(){ return "Right here, right now"; }
   /* ---------- Letter typewriter ---------- */
   const letterTextEl = document.getElementById('letter-text');
   const letterSignEl = document.getElementById('letter-sign');
-  letterSignEl.textContent = `Your mine forever,\n${CONFIG.YOUR_NAME} ❤️`;
+  letterSignEl.textContent = `Your mine forever,\n${CONFIG.YOUR_NAME} ❤️\nfrom hamiuu`;
   let letterTyped = false;
   function typeLetter(){
     if (letterTyped) return;
